@@ -171,7 +171,7 @@ class TicketController extends Controller
     public function destroy(Ticket $ticket)
     {
         //
-        $ticket->delete();
+        $ticket->delete();  
 
         return ['message' => 'Ticket Deleted!'];
     }

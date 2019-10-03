@@ -18,7 +18,7 @@
                                     <th> Customer </th>
                                     <th> Prority </th>
                                     <th> Status </th>
-                                    <th colspan="2">Action</th>
+                                    <th>View</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,14 +28,7 @@
                                     <td v-text="ticket.customer.firstname"></td>
                                     <td>{{changePrority(ticket.prority)}}</td>
                                     <td>{{changeStatus(ticket.status)}}</td>
-                                    <td><a @click="edit(ticket)"><i class="fa fa-edit"
-                                                style="font-size:24px; color:dodgerblue"></i></a></td>
-                                    <!--  <td><button @click="onDelete(post.id)" class="btn btn-danger btn-sm">delete</button></td> -->
-                                    <td>
-                                        <a @click="confirm(ticket.id)">
-                                            <i class="fa fa-trash" style="font-size:24px; color:red"></i>
-                                        </a>
-                                    </td>
+                                    <td><a @click="edit(ticket)"><i class="fa fa-eye" style="font-size:24px; color:dodgerblue"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -209,7 +202,7 @@
 
                         <!-- Modal body -->
                         <div class="modal-body">
-                            <form method="POST" @submit.prevent="onUpdate(ticket_id)">
+                            <form>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
@@ -328,7 +321,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Update Ticket</button>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" data-dismiss="modal">Closed</button>
                             </form>
                             <div v-if="message" class="alert alert-info alert-dismissible fade show text-center"
                                 role="alert">

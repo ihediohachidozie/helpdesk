@@ -29,7 +29,14 @@
                     <div class="card">
                         <div class="card-body">
                             <h1 class="mb-0 font-weight-semibold">{{closedTickets}}</h1>
-                            <h5 class="mb-2 font-weight-medium text-primary"><router-link to="/home/closedtickets">Tickets Resolved</router-link></h5>
+                            <h5 class="mb-2 font-weight-medium text-primary">
+                                <div v-if="closedTickets > 0">
+                                    <router-link to="/home/closedtickets">Tickets Resolved</router-link>
+                                </div>
+                                <div v-else>
+                                    Tickets Resolved
+                                </div>
+                            </h5>
                             <p class="mb-4 text-muted">Total number of complaints resolved.</p>
                         </div>
                     </div>
@@ -38,7 +45,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h1 class="mb-0 font-weight-semibold">{{openTickets}}</h1>
-                            <h5 class="mb-2 font-weight-medium text-primary"><router-link to="/home/openTickets">Open Tickets</router-link></h5>
+                            <h5 class="mb-2 font-weight-medium text-primary">
+                                <div v-if="openTickets > 0">
+                                    <router-link to="/home/openTickets">Open Tickets</router-link>
+                                </div>
+                                <div v-else>
+                                    Open Tickets
+
+                                </div>
+                            </h5>
                             <p class="mb-4 text-muted">Total number of Open complaints.</p>
                         </div>
                     </div>
@@ -47,7 +62,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h1 class="mb-0 font-weight-semibold">{{wipTickets}}</h1>
-                            <h5 class="mb-2 font-weight-medium text-primary"><router-link to="/home/wiptickets">Tickets on WIP </router-link></h5>
+                            <h5 class="mb-2 font-weight-medium text-primary">
+                                <div v-if="wipTickets > 0">
+                                    <router-link to="/home/wiptickets">Tickets on WIP </router-link>
+                                </div>
+                                <div v-else> 
+                                    Tickets on WIP
+                                </div>
+                                
+                            </h5>
                             <p class="mb-4 text-muted">Total number of complaints on WIP.</p>
                         </div>
                     </div>
