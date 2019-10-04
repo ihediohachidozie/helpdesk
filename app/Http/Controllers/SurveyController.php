@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Survey;
+use DB;
 use Illuminate\Http\Request;
 
 class SurveyController extends Controller
@@ -41,10 +42,7 @@ class SurveyController extends Controller
             'comment' => 'sometimes'
         ]);
         $survey = Survey::create($data);
-
-    
-       // return redirect('department')->withStatus(__('Department successfully saved.'));
-        
+       
         return view('thankyou');
     }
 
@@ -57,6 +55,8 @@ class SurveyController extends Controller
     public function show(Survey $survey)
     {
         //
+        //$s = DB::table('surveys')->select('satisfaction', DB::raw('count(satisfaction) as survey_count'))->whereMonth('created_at', $id)->groupBy('satisfaction')->get();
+        //return $s;
     }
 
     /**
@@ -91,5 +91,12 @@ class SurveyController extends Controller
     public function destroy(Survey $survey)
     {
         //
+    }
+
+    public function getSurvey($id)
+    {
+        //$s = survey::whereMonth('created_at', '9')->groupBy('statisfaction')->count();
+         return DB::table('surveys')->select('satisfaction', DB::raw('count(satisfaction) as survey_count'))->whereMonth('created_at', $id)->groupBy('satisfaction')->get();
+        return $s;
     }
 }

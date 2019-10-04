@@ -84,11 +84,28 @@
                         <div class="p-4 pr-5 border-bottom bg-light d-flex justify-content-between">
                             <h4 class="card-title mb-0">Customer Satisfaction</h4>
 
-                            <id id="pie-chart-legend" class="mr-4"></id>
                         </div>
                         <div class="card-body d-flex">
-                            <p class="text-grey">Measures the quality or your support team’s efforts. It is important to monitor your customer
-                                satisfaction status.</p>
+                            <div class="d-flex flex-column">
+         
+                                <table class="table table-bordered text-center">
+                                    <thead class="table-success">
+                                        <td>Great</td>
+                                        <td>Good</td>
+                                        <td>Okay</td>
+                                        <td>Bad</td>
+                                        <td>Terrible</td>
+                                    </thead>
+                                    <tr>
+                                        <td>{{greatP}}</td>
+                                        <td>{{goodP}}</td>
+                                        <td>{{okayP}}</td>
+                                        <td>{{badP}}</td>
+                                        <td>{{terribleP}}</td>
+                                    </tr>
+                                </table>
+                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -129,19 +146,27 @@
         data(){
             return {
                 data: [],
+                survey: [],
                 id: '',
                 tickets: [],
                 openTickets: '',
                 wipTickets: '',
                 closedTickets: '',
                 agents: [],
-                agent: ''
+                agent: '',
+                great: '',
+                good: '',
+                okay: '',
+                bad:'',
+                terrible:'',
+        
             }
         },
         mounted() {
             this.fetch(),
             this.getStatus(),
             this.getAgents(),
+            this.getSurvey(),
             console.log('Component mounted.')
         },
         methods:{
@@ -161,6 +186,45 @@
             getAgents(){
                 axios.get('ticket.agents')
                 .then(({data}) => this.agents = data);
+            },
+            getSurvey(){
+                this.id = 9;
+                axios.get('survey.count/'+this.id)
+                //.then(({data}) => this.survey = data);
+                .then(({ data }) => {
+                    this.terrible = data[0].survey_count;
+                    this.bad = data[1].survey_count;
+                    this.okay = data[2].survey_count;
+                    this.good = data[3].survey_count;
+                    this.great = data[4].survey_count;
+                    //this.sum = parseInt(this.terrible) + parseInt(bad) + parseInt(data[2].survey_count) + parseInt(good) + parseInt(great);
+                });
+            }
+        },
+        computed: {
+            sum: function (){
+                //return parseInt(this.terrible) + parseInt(this.bad) + parseInt(this.okay) + parseInt(this.good) + parseInt(this.great);
+                return parseInt(this.terrible) + parseInt(this.okay) + parseInt(this.bad) + (this.good ? parseInt(this.good) : 0) + (this.great ? parseInt(this.great) : 0);
+            },
+            terribleP: function(){
+                this.terrible = this.terrible ? parseInt(this.terrible) : 0;
+                return (Math.round((parseInt(this.terrible) / this.sum)* 100)/1 + '%');
+            },
+            okayP: function () {
+                this.okay = this.okay ? parseInt(this.okay) : 0;
+                return (Math.round((parseInt(this.okay) / this.sum) * 100) / 1 + '%');
+            },
+            greatP: function () {
+                this.great = this.great ? parseInt(this.great) : 0;
+                return (Math.round((parseInt(this.great) / this.sum) * 100) / 1 + '%');
+            },
+            badP: function () {
+                this.bad = this.bad ? parseInt(this.bad) : 0;
+                return (Math.round((parseInt(this.bad) / this.sum) * 100) / 1 + '%');
+            },
+            goodP: function () {
+                this.good = this.good ? parseInt(this.good) : 0;
+                return (Math.round((parseInt(this.good) / this.sum) * 100) / 1 + '%');
             }
         }
     }

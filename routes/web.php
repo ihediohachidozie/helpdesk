@@ -52,3 +52,4 @@ Route::view('blank', 'blank');
 Route::view('thankyou', 'thankyou');
 
 Route::resource('survey', 'SurveyController');
+Route::get('survey.count/{id}', 'SurveyController@getSurvey');

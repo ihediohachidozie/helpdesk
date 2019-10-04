@@ -3368,21 +3368,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       data: [],
+      survey: [],
       id: '',
       tickets: [],
       openTickets: '',
       wipTickets: '',
       closedTickets: '',
       agents: [],
-      agent: ''
+      agent: '',
+      great: '',
+      good: '',
+      okay: '',
+      bad: '',
+      terrible: ''
     };
   },
   mounted: function mounted() {
-    this.fetch(), this.getStatus(), this.getAgents(), console.log('Component mounted.');
+    this.fetch(), this.getStatus(), this.getAgents(), this.getSurvey(), console.log('Component mounted.');
   },
   methods: {
     fetch: function fetch() {
@@ -3412,6 +3435,46 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref3.data;
         return _this3.agents = data;
       });
+    },
+    getSurvey: function getSurvey() {
+      var _this4 = this;
+
+      this.id = 9;
+      axios.get('survey.count/' + this.id) //.then(({data}) => this.survey = data);
+      .then(function (_ref4) {
+        var data = _ref4.data;
+        _this4.terrible = data[0].survey_count;
+        _this4.bad = data[1].survey_count;
+        _this4.okay = data[2].survey_count;
+        _this4.good = data[3].survey_count;
+        _this4.great = data[4].survey_count; //this.sum = parseInt(this.terrible) + parseInt(bad) + parseInt(data[2].survey_count) + parseInt(good) + parseInt(great);
+      });
+    }
+  },
+  computed: {
+    sum: function sum() {
+      //return parseInt(this.terrible) + parseInt(this.bad) + parseInt(this.okay) + parseInt(this.good) + parseInt(this.great);
+      return parseInt(this.terrible) + parseInt(this.okay) + parseInt(this.bad) + (this.good ? parseInt(this.good) : 0) + (this.great ? parseInt(this.great) : 0);
+    },
+    terribleP: function terribleP() {
+      this.terrible = this.terrible ? parseInt(this.terrible) : 0;
+      return Math.round(parseInt(this.terrible) / this.sum * 100) / 1 + '%';
+    },
+    okayP: function okayP() {
+      this.okay = this.okay ? parseInt(this.okay) : 0;
+      return Math.round(parseInt(this.okay) / this.sum * 100) / 1 + '%';
+    },
+    greatP: function greatP() {
+      this.great = this.great ? parseInt(this.great) : 0;
+      return Math.round(parseInt(this.great) / this.sum * 100) / 1 + '%';
+    },
+    badP: function badP() {
+      this.bad = this.bad ? parseInt(this.bad) : 0;
+      return Math.round(parseInt(this.bad) / this.sum * 100) / 1 + '%';
+    },
+    goodP: function goodP() {
+      this.good = this.good ? parseInt(this.good) : 0;
+      return Math.round(parseInt(this.good) / this.sum * 100) / 1 + '%';
     }
   }
 });
@@ -46361,26 +46424,31 @@ var render = function() {
         _c("div", { staticClass: "row grid-margin" }, [
           _c("div", { staticClass: "col-lg-6 stretch-card" }, [
             _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "p-4 pr-5 border-bottom bg-light d-flex justify-content-between"
-                },
-                [
-                  _c("h4", { staticClass: "card-title mb-0" }, [
-                    _vm._v("Customer Satisfaction")
-                  ]),
-                  _vm._v(" "),
-                  _c("id", {
-                    staticClass: "mr-4",
-                    attrs: { id: "pie-chart-legend" }
-                  })
-                ],
-                1
-              ),
+              _vm._m(1),
               _vm._v(" "),
-              _vm._m(1)
+              _c("div", { staticClass: "card-body d-flex" }, [
+                _c("div", { staticClass: "d-flex flex-column" }, [
+                  _c(
+                    "table",
+                    { staticClass: "table table-bordered text-center" },
+                    [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("tr", [
+                        _c("td", [_vm._v(_vm._s(_vm.greatP))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(_vm.goodP))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(_vm.okayP))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(_vm.badP))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(_vm.terribleP))])
+                      ])
+                    ]
+                  )
+                ])
+              ])
             ])
           ]),
           _vm._v(" "),
@@ -46407,7 +46475,7 @@ var render = function() {
                   "table",
                   { staticClass: "table table-bordered text-center" },
                   [
-                    _vm._m(2),
+                    _vm._m(3),
                     _vm._v(" "),
                     _vm._l(_vm.agents, function(agent) {
                       return _c("tr", [
@@ -46453,12 +46521,33 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body d-flex" }, [
-      _c("p", { staticClass: "text-grey" }, [
-        _vm._v(
-          "Measures the quality or your support team’s efforts. It is important to monitor your customer\n                            satisfaction status."
-        )
-      ])
+    return _c(
+      "div",
+      {
+        staticClass:
+          "p-4 pr-5 border-bottom bg-light d-flex justify-content-between"
+      },
+      [
+        _c("h4", { staticClass: "card-title mb-0" }, [
+          _vm._v("Customer Satisfaction")
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "table-success" }, [
+      _c("td", [_vm._v("Great")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Good")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Okay")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Bad")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Terrible")])
     ])
   },
   function() {
