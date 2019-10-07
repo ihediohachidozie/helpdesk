@@ -96,7 +96,8 @@ class SurveyController extends Controller
     public function getSurvey($id)
     {
         //$s = survey::whereMonth('created_at', '9')->groupBy('statisfaction')->count();
-         return DB::table('surveys')->select('satisfaction', DB::raw('count(satisfaction) as survey_count'))->whereMonth('created_at', $id)->groupBy('satisfaction')->get();
-        return $s;
+        return DB::table('surveys')->select('satisfaction', DB::raw('count(satisfaction) as survey_count'))->whereMonth('created_at', $id)->groupBy('satisfaction')->get();
+
+
     }
 }

@@ -83,28 +83,69 @@
                     <div class="card">
                         <div class="p-4 pr-5 border-bottom bg-light d-flex justify-content-between">
                             <h4 class="card-title mb-0">Customer Satisfaction</h4>
-
                         </div>
-                        <div class="card-body d-flex">
-                            <div class="d-flex flex-column">
-         
+                        <div class="card-body">
+                            <p>This section measures the quality or your support team's efforts. Below shows status for months in the current year.
+                            </p>
+                            <select class="form-control mb-2" @change="onChange($event)" id="exampleFormControlSelect2">
+                                <option v-for="(value, name) in months" :value="value">
+                                    {{name}}
+                                </option>
+                            </select>
                                 <table class="table table-bordered text-center">
-                                    <thead class="table-success">
-                                        <td>Great</td>
-                                        <td>Good</td>
-                                        <td>Okay</td>
-                                        <td>Bad</td>
-                                        <td>Terrible</td>
-                                    </thead>
-                                    <tr>
-                                        <td>{{greatP}}</td>
-                                        <td>{{goodP}}</td>
-                                        <td>{{okayP}}</td>
-                                        <td>{{badP}}</td>
-                                        <td>{{terribleP}}</td>
-                                    </tr>
-                                </table>
-                             </div>
+                                <thead class="table-success">
+                                    <td>Satisfaction</td>
+                                    <td>Progress</td>
+                                    <td>Percentage</td>
+                                </thead>
+                                <tr>
+                                    <td>Great</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" :style="{width: greatP}"></div>
+                                        </div>
+                                    </td>
+                                    <td>{{greatP}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Good</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{width: goodP}"></div>
+                                        </div>
+                                    </td>
+                                    <td>{{goodP}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Okay</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" :style="{width: okayP}"></div>
+                                        </div>
+                                    </td>
+                                    <td>{{okayP}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Bad</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" :style="{width: badP}"></div>
+                                        </div>
+                                    </td>
+                                    <td>{{badP}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Terrible</td>
+                                    <td>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" :style="{width: terribleP}">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{terribleP}}</td>
+                                </tr>
+                            </table>
+      
                             
                         </div>
                     </div>
@@ -159,6 +200,21 @@
                 okay: '',
                 bad:'',
                 terrible:'',
+                month: '',
+                months: {
+                    January : 1,
+                    February : 2,
+                    March : 3,
+                    April : 4,
+                    May : 5,
+                    June : 6,
+                    July : 7,
+                    August : 8,
+                    September : 9,
+                    October : 10,
+                    November : 11,
+                    December : 12
+                }
         
             }
         },
@@ -166,7 +222,7 @@
             this.fetch(),
             this.getStatus(),
             this.getAgents(),
-            this.getSurvey(),
+            this.onChange(),
             console.log('Component mounted.')
         },
         methods:{
@@ -174,6 +230,11 @@
                 // get tickets..
                 axios.get('/ticket?page=' + page)
                     .then(({ data }) => this.tickets = data);
+            },
+            onChange: function (event) {
+                this.id = event.target.value;
+                this.clearall();
+                this.getSurvey();
             },
             getStatus() {
                 axios.get('/ticket.open')
@@ -188,7 +249,6 @@
                 .then(({data}) => this.agents = data);
             },
             getSurvey(){
-                this.id = 9;
                 axios.get('survey.count/'+this.id)
                 //.then(({data}) => this.survey = data);
                 .then(({ data }) => {
@@ -197,34 +257,63 @@
                     this.okay = data[2].survey_count;
                     this.good = data[3].survey_count;
                     this.great = data[4].survey_count;
+
                     //this.sum = parseInt(this.terrible) + parseInt(bad) + parseInt(data[2].survey_count) + parseInt(good) + parseInt(great);
                 });
+            },
+            clearall(){
+                this.terrible = this.bad = this.okay = this.good = this.great = '';
             }
         },
         computed: {
             sum: function (){
-                //return parseInt(this.terrible) + parseInt(this.bad) + parseInt(this.okay) + parseInt(this.good) + parseInt(this.great);
-                return parseInt(this.terrible) + parseInt(this.okay) + parseInt(this.bad) + (this.good ? parseInt(this.good) : 0) + (this.great ? parseInt(this.great) : 0);
+                return parseInt(this.terrible ? parseInt(this.terrible) : 0) + parseInt(this.okay ? parseInt(this.okay) : 0) + parseInt(this.bad ? parseInt(this.bad) : 0) + (this.good ? parseInt(this.good) : 0) + (this.great ? parseInt(this.great) : 0);
             },
             terribleP: function(){
-                this.terrible = this.terrible ? parseInt(this.terrible) : 0;
-                return (Math.round((parseInt(this.terrible) / this.sum)* 100)/1 + '%');
+                if(this.terrible){
+                    this.terrible = this.terrible ? parseInt(this.terrible) : 0;
+                    return (Math.round((parseInt(this.terrible) / this.sum) * 100) / 1 + '%');
+                } else {
+                    return 0 + '%';
+                }
+
             },
             okayP: function () {
-                this.okay = this.okay ? parseInt(this.okay) : 0;
-                return (Math.round((parseInt(this.okay) / this.sum) * 100) / 1 + '%');
+                if(this.okay){
+                    this.okay = this.okay ? parseInt(this.okay) : 0;
+                    return (Math.round((parseInt(this.okay) / this.sum) * 100) / 1 + '%');                    
+                }else{
+                    return 0 + '%';
+                }
+
             },
             greatP: function () {
-                this.great = this.great ? parseInt(this.great) : 0;
-                return (Math.round((parseInt(this.great) / this.sum) * 100) / 1 + '%');
+                if(this.great){
+                    this.great = this.great ? parseInt(this.great) : 0;
+                    return (Math.round((parseInt(this.great) / this.sum) * 100) / 1 + '%');
+                }else{
+                    return 0 + '%';
+                }
+
             },
             badP: function () {
-                this.bad = this.bad ? parseInt(this.bad) : 0;
-                return (Math.round((parseInt(this.bad) / this.sum) * 100) / 1 + '%');
+                if(this.bad){
+                    this.bad = this.bad ? parseInt(this.bad) : 0;
+                    return (Math.round((parseInt(this.bad) / this.sum) * 100) / 1 + '%');
+                } else{
+                    return 0 + '%';
+                }
+
             },
             goodP: function () {
-                this.good = this.good ? parseInt(this.good) : 0;
-                return (Math.round((parseInt(this.good) / this.sum) * 100) / 1 + '%');
+                if(this.good){
+                    this.good = this.good ? parseInt(this.good) : 0;
+                    return (Math.round((parseInt(this.good) / this.sum) * 100) / 1 + '%');
+                } else{
+                    return 0 + '%';
+                }
+
+
             }
         }
     }

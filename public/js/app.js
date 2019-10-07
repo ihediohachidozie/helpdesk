@@ -3385,6 +3385,47 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3401,11 +3442,26 @@ __webpack_require__.r(__webpack_exports__);
       good: '',
       okay: '',
       bad: '',
-      terrible: ''
+      terrible: '',
+      month: '',
+      months: {
+        January: 1,
+        February: 2,
+        March: 3,
+        April: 4,
+        May: 5,
+        June: 6,
+        July: 7,
+        August: 8,
+        September: 9,
+        October: 10,
+        November: 11,
+        December: 12
+      }
     };
   },
   mounted: function mounted() {
-    this.fetch(), this.getStatus(), this.getAgents(), this.getSurvey(), console.log('Component mounted.');
+    this.fetch(), this.getStatus(), this.getAgents(), this.onChange(), console.log('Component mounted.');
   },
   methods: {
     fetch: function fetch() {
@@ -3417,6 +3473,11 @@ __webpack_require__.r(__webpack_exports__);
         var data = _ref.data;
         return _this.tickets = data;
       });
+    },
+    onChange: function onChange(event) {
+      this.id = event.target.value;
+      this.clearall();
+      this.getSurvey();
     },
     getStatus: function getStatus() {
       var _this2 = this;
@@ -3439,7 +3500,6 @@ __webpack_require__.r(__webpack_exports__);
     getSurvey: function getSurvey() {
       var _this4 = this;
 
-      this.id = 9;
       axios.get('survey.count/' + this.id) //.then(({data}) => this.survey = data);
       .then(function (_ref4) {
         var data = _ref4.data;
@@ -3449,32 +3509,54 @@ __webpack_require__.r(__webpack_exports__);
         _this4.good = data[3].survey_count;
         _this4.great = data[4].survey_count; //this.sum = parseInt(this.terrible) + parseInt(bad) + parseInt(data[2].survey_count) + parseInt(good) + parseInt(great);
       });
+    },
+    clearall: function clearall() {
+      this.terrible = this.bad = this.okay = this.good = this.great = '';
     }
   },
   computed: {
     sum: function sum() {
-      //return parseInt(this.terrible) + parseInt(this.bad) + parseInt(this.okay) + parseInt(this.good) + parseInt(this.great);
-      return parseInt(this.terrible) + parseInt(this.okay) + parseInt(this.bad) + (this.good ? parseInt(this.good) : 0) + (this.great ? parseInt(this.great) : 0);
+      return parseInt(this.terrible ? parseInt(this.terrible) : 0) + parseInt(this.okay ? parseInt(this.okay) : 0) + parseInt(this.bad ? parseInt(this.bad) : 0) + (this.good ? parseInt(this.good) : 0) + (this.great ? parseInt(this.great) : 0);
     },
     terribleP: function terribleP() {
-      this.terrible = this.terrible ? parseInt(this.terrible) : 0;
-      return Math.round(parseInt(this.terrible) / this.sum * 100) / 1 + '%';
+      if (this.terrible) {
+        this.terrible = this.terrible ? parseInt(this.terrible) : 0;
+        return Math.round(parseInt(this.terrible) / this.sum * 100) / 1 + '%';
+      } else {
+        return 0 + '%';
+      }
     },
     okayP: function okayP() {
-      this.okay = this.okay ? parseInt(this.okay) : 0;
-      return Math.round(parseInt(this.okay) / this.sum * 100) / 1 + '%';
+      if (this.okay) {
+        this.okay = this.okay ? parseInt(this.okay) : 0;
+        return Math.round(parseInt(this.okay) / this.sum * 100) / 1 + '%';
+      } else {
+        return 0 + '%';
+      }
     },
     greatP: function greatP() {
-      this.great = this.great ? parseInt(this.great) : 0;
-      return Math.round(parseInt(this.great) / this.sum * 100) / 1 + '%';
+      if (this.great) {
+        this.great = this.great ? parseInt(this.great) : 0;
+        return Math.round(parseInt(this.great) / this.sum * 100) / 1 + '%';
+      } else {
+        return 0 + '%';
+      }
     },
     badP: function badP() {
-      this.bad = this.bad ? parseInt(this.bad) : 0;
-      return Math.round(parseInt(this.bad) / this.sum * 100) / 1 + '%';
+      if (this.bad) {
+        this.bad = this.bad ? parseInt(this.bad) : 0;
+        return Math.round(parseInt(this.bad) / this.sum * 100) / 1 + '%';
+      } else {
+        return 0 + '%';
+      }
     },
     goodP: function goodP() {
-      this.good = this.good ? parseInt(this.good) : 0;
-      return Math.round(parseInt(this.good) / this.sum * 100) / 1 + '%';
+      if (this.good) {
+        this.good = this.good ? parseInt(this.good) : 0;
+        return Math.round(parseInt(this.good) / this.sum * 100) / 1 + '%';
+      } else {
+        return 0 + '%';
+      }
     }
   }
 });
@@ -46426,28 +46508,123 @@ var render = function() {
             _c("div", { staticClass: "card" }, [
               _vm._m(1),
               _vm._v(" "),
-              _c("div", { staticClass: "card-body d-flex" }, [
-                _c("div", { staticClass: "d-flex flex-column" }, [
-                  _c(
-                    "table",
-                    { staticClass: "table table-bordered text-center" },
-                    [
-                      _vm._m(2),
-                      _vm._v(" "),
-                      _c("tr", [
-                        _c("td", [_vm._v(_vm._s(_vm.greatP))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(_vm.goodP))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(_vm.okayP))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(_vm.badP))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(_vm.terribleP))])
-                      ])
-                    ]
+              _c("div", { staticClass: "card-body" }, [
+                _c("p", [
+                  _vm._v(
+                    "This section measures the quality or your support team's efforts. Below shows status for months in the current year.\n                        "
                   )
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    staticClass: "form-control mb-2",
+                    attrs: { id: "exampleFormControlSelect2" },
+                    on: {
+                      change: function($event) {
+                        return _vm.onChange($event)
+                      }
+                    }
+                  },
+                  _vm._l(_vm.months, function(value, name) {
+                    return _c("option", { domProps: { value: value } }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(name) +
+                          "\n                            "
+                      )
+                    ])
+                  }),
+                  0
+                ),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  { staticClass: "table table-bordered text-center" },
+                  [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Great")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "progress" }, [
+                          _c("div", {
+                            staticClass:
+                              "progress-bar progress-bar-striped bg-success progress-bar-animated",
+                            style: { width: _vm.greatP }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.greatP))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Good")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "progress" }, [
+                          _c("div", {
+                            staticClass:
+                              "progress-bar progress-bar-striped progress-bar-animated",
+                            style: { width: _vm.goodP }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.goodP))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Okay")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "progress" }, [
+                          _c("div", {
+                            staticClass:
+                              "progress-bar progress-bar-striped bg-info progress-bar-animated",
+                            style: { width: _vm.okayP }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.okayP))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Bad")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "progress" }, [
+                          _c("div", {
+                            staticClass:
+                              "progress-bar progress-bar-striped bg-warning progress-bar-animated",
+                            style: { width: _vm.badP }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.badP))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Terrible")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("div", { staticClass: "progress" }, [
+                          _c("div", {
+                            staticClass:
+                              "progress-bar progress-bar-striped bg-danger progress-bar-animated",
+                            style: { width: _vm.terribleP }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(_vm.terribleP))])
+                    ])
+                  ]
+                )
               ])
             ])
           ]),
@@ -46539,15 +46716,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "table-success" }, [
-      _c("td", [_vm._v("Great")]),
+      _c("td", [_vm._v("Satisfaction")]),
       _vm._v(" "),
-      _c("td", [_vm._v("Good")]),
+      _c("td", [_vm._v("Progress")]),
       _vm._v(" "),
-      _c("td", [_vm._v("Okay")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Bad")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Terrible")])
+      _c("td", [_vm._v("Percentage")])
     ])
   },
   function() {
