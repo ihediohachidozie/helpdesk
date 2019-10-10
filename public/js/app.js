@@ -46511,7 +46511,7 @@ var render = function() {
               _c("div", { staticClass: "card-body" }, [
                 _c("p", [
                   _vm._v(
-                    "This section measures the quality or your support team's efforts. Below shows status for months in the current year.\n                        "
+                    "This measures the quality or support team's efforts. Below shows status for months in the current year.\n                        "
                   )
                 ]),
                 _vm._v(" "),
@@ -46540,7 +46540,7 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "table",
-                  { staticClass: "table table-bordered text-center" },
+                  { staticClass: "table table-striped text-center" },
                   [
                     _vm._m(2),
                     _vm._v(" "),

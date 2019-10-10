@@ -85,14 +85,14 @@
                             <h4 class="card-title mb-0">Customer Satisfaction</h4>
                         </div>
                         <div class="card-body">
-                            <p>This section measures the quality or your support team's efforts. Below shows status for months in the current year.
+                            <p>This measures the quality or support team's efforts. Below shows status for months in the current year.
                             </p>
                             <select class="form-control mb-2" @change="onChange($event)" id="exampleFormControlSelect2">
                                 <option v-for="(value, name) in months" :value="value">
                                     {{name}}
                                 </option>
                             </select>
-                                <table class="table table-bordered text-center">
+                                <table class="table table-striped text-center">
                                 <thead class="table-success">
                                     <td>Satisfaction</td>
                                     <td>Progress</td>
