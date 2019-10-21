@@ -82,69 +82,41 @@
                 <div class="col-lg-6 stretch-card">
                     <div class="card">
                         <div class="p-4 pr-5 border-bottom bg-light d-flex justify-content-between">
-                            <h4 class="card-title mb-0">Customer Satisfaction</h4>
+                            <h4 class="card-title mb-0 font-weight-bold">Customer Satisfaction</h4>
                         </div>
                         <div class="card-body">
                             <p>This measures the quality or support team's efforts. Below shows status for months in the current year.
                             </p>
-                            <select class="form-control mb-2" @change="onChange($event)" id="exampleFormControlSelect2">
+                            <select class="form-control mb-3" @change="onChange($event)" id="exampleFormControlSelect2">
                                 <option v-for="(value, name) in months" :value="value">
-                                    {{name}}
+                                    {{name}}  
                                 </option>
                             </select>
-                                <table class="table table-striped text-center">
-                                <thead class="table-success">
-                                    <td>Satisfaction</td>
-                                    <td>Progress</td>
-                                    <td>Percentage</td>
-                                </thead>
-                                <tr>
-                                    <td>Great</td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" :style="{width: greatP}"></div>
-                                        </div>
-                                    </td>
-                                    <td>{{greatP}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Good</td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-striped progress-bar-animated" :style="{width: goodP}"></div>
-                                        </div>
-                                    </td>
-                                    <td>{{goodP}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Okay</td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" :style="{width: okayP}"></div>
-                                        </div>
-                                    </td>
-                                    <td>{{okayP}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Bad</td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" :style="{width: badP}"></div>
-                                        </div>
-                                    </td>
-                                    <td>{{badP}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Terrible</td>
-                                    <td>
-                                        <div class="progress">
-                                            <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" :style="{width: terribleP}">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{terribleP}}</td>
-                                </tr>
-                            </table>
+                            <h4 class="small font-weight-bold">Terrible<span class="float-right">{{terribleP}}</span></h4>
+                            <div class="progress mb-4">
+                                <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" :style="{width: terribleP}" aria-valuenow="20" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                            <h4 class="small font-weight-bold">Bad <span class="float-right">{{badP}}</span></h4>
+                            <div class="progress mb-4">
+                                <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" :style="{width: badP}" aria-valuenow="40" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                            <h4 class="small font-weight-bold">Okay <span class="float-right">{{okayP}}</span></h4>
+                            <div class="progress mb-4">
+                                <div class="progress-bar progress-bar-striped bg-info progress-bar-animated" role="progressbar" :style="{width: okayP}" aria-valuenow="60" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                            <h4 class="small font-weight-bold">Good <span class="float-right">{{goodP}}</span></h4>
+                            <div class="progress mb-4">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" :style="{width: goodP}" aria-valuenow="80" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
+                            <h4 class="small font-weight-bold">Great<span class="float-right">{{greatP}}</span></h4>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" :style="{width: greatP}" aria-valuenow="100" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
+                            </div>
       
                             
                         </div>
@@ -153,7 +125,7 @@
                 <div class="col-lg-6 stretch-card">
                     <div class="card">
                         <div class="p-4 pr-5 border-bottom bg-light d-flex justify-content-between">
-                            <h4 class="card-title mb-0">Top Performing Helpdesk Agents</h4>
+                            <h4 class="card-title mb-0 font-weight-bold">Top Performing Helpdesk Agents</h4>
                             <id id="scatter-chart-legend"></id>
                         </div>
                         <div class="card-body">
@@ -236,7 +208,7 @@
                 this.clearall();
                 this.getSurvey();
             },
-            getStatus() {
+            getStatus() {  
                 axios.get('/ticket.open')
                 .then(({data}) => {
                     this.openTickets = data[0];
@@ -252,14 +224,38 @@
                 axios.get('survey.count/'+this.id)
                 //.then(({data}) => this.survey = data);
                 .then(({ data }) => {
-                    this.terrible = data[0].survey_count;
-                    this.bad = data[1].survey_count;
-                    this.okay = data[2].survey_count;
-                    this.good = data[3].survey_count;
-                    this.great = data[4].survey_count;
-
-                    //this.sum = parseInt(this.terrible) + parseInt(bad) + parseInt(data[2].survey_count) + parseInt(good) + parseInt(great);
+                    this.terrible = data[0];
+                    this.bad = data[1];
+                    this.okay = data[2];
+                    this.good = data[3];
+                    this.great = data[4];
                 });
+            },
+            getValues(){
+                this.getSurvey();
+                for (item in this.survey)
+                {
+                    if(item.satisfaction == 0)
+                    {
+                        this.terrible = item.survey_count;
+                    }
+                    else if(item.satisfaction == 1)
+                    {
+                        this.bad = item.survey_count;
+                    }
+                    else if (item.satisfaction == 2) 
+                    {
+                        this.okay = item.survey_count;
+                    }
+                    else if (item.satisfaction == 3) 
+                    {
+                        this.good = item.survey_count;
+                    }
+                    else if (item.satisfaction == 4)
+                    {
+                        this.good = item.survey_count;
+                    }
+                }
             },
             clearall(){
                 this.terrible = this.bad = this.okay = this.good = this.great = '';

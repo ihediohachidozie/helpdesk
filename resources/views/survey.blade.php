@@ -40,7 +40,7 @@
                       <div class="form-check-inline">
                           <label class="form-check-label">
                               <input type="radio" class="form-check-input" id="radio3" name="satisfaction" value="3">Good</label>
-                      </div>
+                      </div>   
                       <div class="form-check-inline">
                           <label class="form-check-label">
                               <input type="radio" class="form-check-input" id="radio3" name="satisfaction" value="4">Great </label>

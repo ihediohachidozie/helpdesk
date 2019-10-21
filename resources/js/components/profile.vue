@@ -68,36 +68,22 @@
 
                         </div>
                         <div class="card-body text-center">
-                            <div class="col-md-3 text-center" v-if="image">
-                                <img :src="image" class="img-responsive" height="70" width="90">
+                            <div class="row mb-3">
+                                
+                                <div class="mx-auto" v-if="imageURL">
+                                    <img :src="imageURL" class="rounded-circle" height="300px" width="300px">
+                                </div>
+                                <div v-else class="mx-auto">
+                                    <img src="/assets/images/faces/face8.jpg" class="rounded-circle" height="300px" width="300px">
+                                </div>
+                                <input style="display: none" type="file" name="image" @change="onImageChange" ref="fileInput">
+
                             </div>
-                        <form @submit="onPicUpdate" enctype="multipart/form-data">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                                </div>
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="image" name="image" aria-describedby="inputGroupFileAddon01" @change="onImageChange">
-                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                                </div>
+                            <div class="row">
+                                <div class="col"><button class="btn btn-success" @click="$refs.fileInput.click()">Select Image</button></div>
+                                <div class="col"><button class="btn btn-primary" @click="onUpload">Upload</button></div>
                             </div>
                             
-                            <div class="my-2"></div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Change Image</button>
-                            </div>
-                        
-                        </form>
-                            <!-- <img class="img-md rounded-circle mb-5" :src="image" width="400px"> -->
-<!--                             <form class="forms-sample" @submit.prevent="onPicUpdate(id)" enctype="multipart/form-data">
-                                <div class="form-group">
-                                      
-                                    <input type="file" class="form-control" @change="onImageChange">
-                                </div>
-
-                                <button type="submit" class="btn btn-success mr-2 p-3 btn-block">Submit</button>
-                                
-                            </form> -->
                         </div>
                     </div>
                 </div>
@@ -117,6 +103,7 @@
         data() {
             return {
                 image: '',
+                imageURL:'',
                 name: '',
                 email: '',
                 id: '',
@@ -129,7 +116,6 @@
         created() {
           console.log('Component mounted.')
           this.getUser();
-          
         },
         methods:{
             getUser(){
@@ -137,7 +123,7 @@
                 .then(({ data }) => {
                     this.name = data[0].name;
                     this.email = data[0].email;
-                    this.image = data[0].image;
+                    this.imageURL = data[0].image;
                     this.id = data[0].id;
                 });
             },
@@ -176,22 +162,21 @@
                 this.password_confirmation = ''
             },
             onImageChange(e) {
-                console.log(e.target.files[0]);
-                this.image = e.target.files[0];
+               
+                const file = e.target.files[0];
+                this.image = file;
+                this.imageURL = URL.createObjectURL(file);
             },
-            onPicUpdate(e){
-                 //alert(this.image);
-                e.preventDefault();
+            onUpload(){
                 let currentObj = this;
+                const formData = new FormData();   
+                formData.append('image', this.image, this.image.name);
+                
                 const config = {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 }
-                let formData = new FormData();   
-                formData.append('image', this.image);
-                formData.append('id', this.id);
 
-                //alert(this.id);
-                axios.post('/profile', formData, config)
+                axios.post('/picUpload', formData, config)
                 .then(function (response) {
                     currentObj.success = response.data.message;
                     alert(currentObj.success);

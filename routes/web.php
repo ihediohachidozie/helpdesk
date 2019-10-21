@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('profile', 'ProfileController');
+Route::post('picUpload', 'ProfileController@picUpload');
 Route::resource('department', 'DepartmentController');
 
 Route::resource('software', 'SoftwareController');
@@ -53,3 +54,9 @@ Route::view('thankyou', 'thankyou');
 
 Route::resource('survey', 'SurveyController');
 Route::get('survey.count/{id}', 'SurveyController@getSurvey');
+Route::get('month/{id}', 'SurveyController@getMonth');
+Route::get('level/{id}', 'SurveyController@getLevel');
+
+ Route::get('/{vue_capture?}', function () {
+   return view('home');
+ })->where('vue_capture', '[\/\w\.-]*');

@@ -1,9 +1,9 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
         <li class="nav-item nav-profile">
-            <a href="#" class="nav-link">
+            <a href="{{route('home')}}" class="nav-link">
             <div class="profile-image">
-                <img class="img-xs rounded-circle" src="../assets/images/faces/face8.jpg" alt="profile image">
+                <img class="img-xs rounded-circle" src={{auth()->user()->image ? asset('storage/'. auth()->user()->image) : "../assets/images/faces/face8.jpg"}} alt="profile image">
                 <div class="dot-indicator bg-success"></div>
             </div>
             <div class="text-wrapper">
@@ -61,6 +61,12 @@
             <router-link to="/home/search" class="nav-link">
                 <i class="menu-icon typcn typcn-shopping-bag"></i>
                 <span class="menu-title">Knowledge Base</span>
+            </router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/home/survey" class="nav-link">
+                <i class="menu-icon typcn typcn-shopping-bag"></i>
+                <span class="menu-title">Customer Service Survey</span>
             </router-link>
         </li>
     </ul>

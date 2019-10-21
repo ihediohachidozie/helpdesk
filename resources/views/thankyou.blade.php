@@ -34,6 +34,8 @@
               <div class="row mt-5">
                 <div class="col-12 text-center mt-xl-2">
                     <p class="text-white display-4 font-weight-medium">Your feedback is noted for service improvement</p>
+                    
+                   
                 </div>
               </div>
               <div class="row mt-5">
@@ -57,5 +59,6 @@
     <script src="../assets/js/shared/off-canvas.js"></script>
     <script src="../assets/js/shared/misc.js"></script>
     <!-- endinject -->
+
   </body>
 </html>

@@ -214,7 +214,7 @@ class TicketController extends Controller
 
         $closed = Ticket::where('status', 2)->count();
 
-       // $status = [$opn, $wip, $closed];
+       // $status = [$opn, $wip, $closed];  
         return [ $open, $wip, $closed ];
     }
     public function getAgents()

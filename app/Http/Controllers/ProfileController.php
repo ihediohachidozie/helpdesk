@@ -21,7 +21,7 @@ class ProfileController extends Controller
     public function index()
     {
         //
-        $user = User::find(auth()->id())->get(['id', 'name', 'email', 'image']);
+        $user = User::where('id', auth()->user()->id)->get(['id', 'name', 'email', 'image']);
 
         return $user;
     }
@@ -53,10 +53,7 @@ class ProfileController extends Controller
         ]); 
 
         $user->update($data);
-
-     //   $imageName = time().'.'.$request->image->getClientOriginalExtension();
-      //  $request->image->move(public_path('images'), $imageName);
-                
+               
         if(request()->has('image')){
             auth()->user()->update([
                 'image' => request()->image->store('uploads', 'public'),
@@ -67,16 +64,8 @@ class ProfileController extends Controller
             $image->save();
         }
 
-      //  $user->update($data);
-
-      //  $this->storeImage();
-
         $msg ='Profile Image uploaded successfully.';
-        
-      //  
-      //  
-         
-        
+
 
         return['message' => $msg];
     }
@@ -112,7 +101,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user = User::findorfail(auth()->id());
+        $user = User::where('id', auth()->user()->id);
         
         if($request->has('name'))
         {
@@ -143,15 +132,7 @@ class ProfileController extends Controller
         }       
          else
         {
-            //$imageName = time().'.'.$request->image->getClientOriginalExtension();
-            //return dd($request->all());
-            //$request->image->move(public_path('images'), $imageName);
-            if($request->get('image')){
-                $msg = "Image exists";
-            }
-            else{
-                $msg = $request->image;
-            }           
+          
         }     
 
         $user->update($data);
@@ -161,18 +142,19 @@ class ProfileController extends Controller
 
     public function picUpload(Request $request) 
     {
+        $user = User::where('id', auth()->user()->id);
+
         $data = request()->validate([
             'image' => 'sometimes|file|image|max:5000',
         ]); 
                 
 
-       // $msg ='Profile Image uploaded successfully.';
+        $msg ='Profile Image uploaded successfully.';
         
-      //  $user->update($data);
-      //  $this->storeImage();
-         
-        $msg = $request->get('id');
-
+        $user->update($data);
+        $this->storeImage($data);
+      
+     
         return['message' => $msg];
 
     }
@@ -187,7 +169,7 @@ class ProfileController extends Controller
         //
     }
 
-    private function storeImage()
+    private function storeImage($data)
     {
         if(request()->has('image')){
             auth()->user()->update([
