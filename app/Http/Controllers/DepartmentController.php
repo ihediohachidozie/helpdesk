@@ -18,7 +18,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        //  
         $department = Department::paginate(5);
         
         return $department;

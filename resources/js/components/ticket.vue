@@ -40,7 +40,7 @@
                             </tbody>
                         </table>
                         <div class="mt-2">
-                            <pagination :data="tickets" @pagination-change-page="fetch">
+                            <pagination :data="tickets" @pagination-change-page="fetch">  
                                 <span slot="prev-nav">&lt; Previous</span>
                                 <span slot="next-nav">Next &gt;</span>
                             </pagination>
